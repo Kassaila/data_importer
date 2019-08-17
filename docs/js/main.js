@@ -29,7 +29,7 @@ function dataImport(attrImport, attrExport, docsImport) {
                         importRecurcion();
                     }
                 });
-        // next step whiout import
+            // next step whiout import
         } else if (compsImport.length - 1 === j && docsImport.length - 1 >= i) {
             j = 0;
             i++;
@@ -37,7 +37,7 @@ function dataImport(attrImport, attrExport, docsImport) {
         } else if (docsImport.length - 1 >= i) {
             j++;
             importRecurcion();
-        // end of import
+            // end of import
         } else {
             console.log('import end. >>');
             // callback - main js
@@ -46,7 +46,10 @@ function dataImport(attrImport, attrExport, docsImport) {
     })();
 }
 // init - data importer
-dataImport('data-import', 'data-export', ['ui.html','ui-5.html', 'ui-3.html', 'ui-2.html', 'ui-4.html', 'ui-1.html']);
+dataImport('data-import', // string; tags attr for import - "to" this tags
+    'data-export', // string; tags attr for export - "from" this tags
+    ['ui.html', 'ui-5.html', 'ui-3.html', 'ui-2.html', 'ui-4.html', 'ui-1.html'] // array of strings; names of files
+    );
 /*
 * PRELOADER
 */
