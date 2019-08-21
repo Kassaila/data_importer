@@ -5,38 +5,38 @@
 /*
 * DATA IMPORTER
 */
-function dataImport(attrImport, attrExport, docsImport) {
+function dataImporter(attrImport, attrExport, files) {
     console.log('<< import start:');
     const compsImport = $(`[${attrImport}]`);
     let i = 0, j = 0;
     // import function
-    (function importRecurcion() {
+    (function importCycle() {
         let attrImportVal = $(compsImport[j]).attr(`${attrImport}`);
         if ($(compsImport[j]).children().length === 0) {
-            $(compsImport[j]).load(`${docsImport[i]} [${attrExport}="${attrImportVal}"]>*`,
+            $(compsImport[j]).load(`${files[i]} [${attrExport}="${attrImportVal}"]>*`,
                 function (response, status, xhr) {
                     // import status
                     if ($(compsImport[j]).children().length > 0) {
-                        console.log(`- file: ${docsImport[i]} -> el: ${attrImportVal} -> ${status}`);
+                        console.log(`- file: ${files[i]} -> el: ${attrImportVal} -> ${status}`);
                     }
                     // next step after import
                     if (compsImport.length - 1 === j) {
                         j = 0;
                         i++;
-                        importRecurcion();
+                        importCycle();
                     } else {
                         j++;
-                        importRecurcion();
+                        importCycle();
                     }
                 });
             // next step whiout import
-        } else if (compsImport.length - 1 === j && docsImport.length - 1 >= i) {
+        } else if (compsImport.length - 1 === j && files.length - 1 >= i) {
             j = 0;
             i++;
-            importRecurcion();
-        } else if (docsImport.length - 1 >= i) {
+            importCycle();
+        } else if (files.length - 1 >= i) {
             j++;
-            importRecurcion();
+            importCycle();
             // end of import
         } else {
             console.log('import end. >>');
@@ -46,22 +46,18 @@ function dataImport(attrImport, attrExport, docsImport) {
     })();
 }
 // init - data importer
-dataImport('data-import', // string; tags attr for import - "to" this tags
+dataImporter('data-import', // string; tags attr for import - "to" this tags
     'data-export', // string; tags attr for export - "from" this tags
     ['ui.html', 'ui-5.html', 'ui-3.html', 'ui-2.html', 'ui-4.html', 'ui-1.html'] // array of strings; names of files
-    );
-/*
-* PRELOADER
-*/
-$(window).on('load', () => {
-    $('#preloader').delay(500).fadeOut('slow');
-});
+);
 // time loading - start
 console.time('page loading time');
 // main js
 function mainJS() {
     // time loading - end
     console.timeEnd('page loading time');
+    // preloader
+    $('#preloader').delay(500).fadeOut('slow');
 
     // main js - end
 }
