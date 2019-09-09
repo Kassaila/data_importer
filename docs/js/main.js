@@ -23,25 +23,25 @@ function dataImporter(attrImport, attrExport, files) {
                     if (compsImport.length - 1 === j) {
                         j = 0;
                         i++;
-                        importCycle();
+                        return importCycle();
                     } else {
                         j++;
-                        importCycle();
+                        return importCycle();
                     }
                 });
             // next step whiout import
         } else if (compsImport.length - 1 === j && files.length - 1 >= i) {
             j = 0;
             i++;
-            importCycle();
+            return importCycle();
         } else if (files.length - 1 >= i) {
             j++;
-            importCycle();
+            return importCycle();
             // end of import
         } else {
             console.log('import end. >>');
             // callback - main js
-            mainJS();
+            return mainJS();
         }
     })();
 }
@@ -56,8 +56,6 @@ console.time('page loading time');
 function mainJS() {
     // time loading - end
     console.timeEnd('page loading time');
-    // preloader
-    $('#preloader').delay(500).fadeOut('slow');
 
     // main js - end
 }
